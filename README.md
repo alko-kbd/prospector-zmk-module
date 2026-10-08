@@ -1,5 +1,7 @@
 # Prospector ZMK Module
 
+This is a fork of [carrefinho/prospector-zmk-module](carrefinho/prospector-zmk-module) switched to the feat/new-status-screens branch and added support for classic nice_nano boards.
+
 This is a [ZMK module](https://zmk.dev/docs/features/modules) that provides custom status screen support for the [Prospector](https://github.com/carrefinho/prospector) display dongle.
 
 ![Four status screen layouts for Prospector](docs/images/status-screen-update-hero.png)
@@ -9,14 +11,20 @@ This is a [ZMK module](https://zmk.dev/docs/features/modules) that provides cust
 
 ## Table of Contents
 
-- [Features](#features)
-- [Installation](#installation)
-- [Status Screens](#status-screens)
-- [Usage](#usage)
-- [Configuration](#configuration)
-- [Troubleshooting](#troubleshooting)
-- [Known Issues](#known-issues)
-- [To-Do](#to-do)
+- [Prospector ZMK Module](#prospector-zmk-module)
+  - [Table of Contents](#table-of-contents)
+  - [Features](#features)
+  - [Installation](#installation)
+  - [Status Screens](#status-screens)
+  - [Usage](#usage)
+  - [Configuration](#configuration)
+    - [General](#general)
+    - [Modifiers](#modifiers)
+    - [Field-specific](#field-specific)
+  - [Troubleshooting](#troubleshooting)
+    - [RAM overflow error](#ram-overflow-error)
+  - [Known Issues](#known-issues)
+  - [To-Do](#to-do)
 
 ## Features
 
@@ -38,16 +46,19 @@ manifest:
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
-    - name: carrefinho                            # <--- add this
-      url-base: https://github.com/carrefinho     # <--- and this
+#    - name: carrefinho                            # <--- add this
+#      url-base: https://github.com/carrefinho     # <--- and this
+    - name: alko                                   # <--- add this
+      url-base: https://github.com/alko_kbd        # <--- and this
   projects:
     - name: zmk
       remote: zmkfirmware
       revision: main
       import: app/west.yml
     - name: prospector-zmk-module                 # <--- and these
-      remote: carrefinho                          # <---
-      revision: feat/new-status-screens           # <---
+      remote: alko
+#      remote: carrefinho                          # <---
+#      revision: feat/new-status-screens           # <---
   self:
     path: config
 ```
@@ -57,7 +68,8 @@ Then add the `prospector_adapter` shield to the dongle in your `build.yaml`:
 ```yaml
 ---
 include:
-  - board: xiao_ble//zmk
+#  - board: xiao_ble//zmk
+  - board: nice_nano//zmk                          # <-- nice_nano v2 supported
     shield: [YOUR KEYBOARD SHIELD]_dongle prospector_adapter
 ```
 
